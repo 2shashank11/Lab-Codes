@@ -53,37 +53,74 @@ void inorder(node* root){
     inorder(root->right);
 }
 
-node* inorderPredecessor(node* root){
-    root=root->left;
-    while(root->right!=NULL){
-        root=root->right;
+
+node* deleteNodeiPre(node* root, int value){
+    if(root==NULL){
+        return NULL;
+    }
+
+    if(value < root->data){
+        root->left=deleteNodeiPre(root->left, value);
+    }
+
+    else if(value > root->data){
+        root->right=deleteNodeiPre(root->right, value);
+    }
+
+    else{
+        if(root->left==NULL){
+            node* temp=root->right;
+            free(root);
+            return temp;
+        }
+
+        else if(root->right==NULL){
+            node* temp=root->left;
+            free(root);
+            return temp;
+        }
+
+        node* temp=root->left;
+        while(temp->right!=NULL){
+            temp=temp->right;
+        }
+        root->data=temp->data;
+        root->left=deleteNodeiPre(root->left, temp->data);
     }
 
     return root;
 }
 
-node* deleteNode(node* root, int value){
-    if(root==NULL){
-        return NULL;
-    }
 
-    if(root->right==NULL && root->left==NULL){
-        free(root);
-        return NULL;
-    }
+node* deleteNodeiSucc(node* root, int value){
+    if(root==NULL) return NULL;
 
     if(value < root->data){
-        root->left=deleteNode(root->left, value);
+        root->left = deleteNodeiSucc(root->left, value);
     }
 
     else if(value > root->data){
-        root->right=deleteNode(root->right, value);
+        root->right = deleteNodeiSucc(root->right, value);
     }
 
     else{
-        node* iPre = inorderPredecessor(root);
-        root->data=iPre->data;
-        root->left=deleteNode(root->left, iPre->data);
+        if(root->right==NULL){
+            node* temp=root->left;
+            free(root);
+            return temp;
+        }
+        else if(root->left==NULL){
+            node* temp=root->right;
+            free(root);
+            return temp;
+        }
+        
+        node* temp=root->right;
+        while(temp->left!=NULL){
+            temp=temp->left;
+        }
+        root->data=temp->data;
+        root->right=deleteNodeiSucc(root->right, value);
     }
 
     return root;
@@ -114,7 +151,7 @@ int main(){
         else if(choice==3){
             printf("Element to Delete: ");
             scanf("%d", &value);
-            root=deleteNode(root, value);
+            root=deleteNodeiPre(root, value);
         }
 
         else if(choice==4){
