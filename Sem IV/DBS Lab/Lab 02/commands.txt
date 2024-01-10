@@ -1,0 +1,204 @@
+
+SQL> create table Employee (
+  2  EmpNo numeric(3),
+  3  EmpName varchar(10) not null,
+  4  Gender varchar(1) not null,
+  5  Salary numeric(6) not null,
+  6  Address varchar(10) not null,
+  7  DNo numeric(3),
+  8  primary key(EmpNo) ,
+  9  check (Gender in ('M', 'F')));
+
+Table created.
+
+SQL> create table Department1(
+  2  DeptNo numeric(3),
+  3  DeptName varchar(10),
+  4  Location varchar(10),
+  5  primary key(DeptNo),
+  6  constraint CK_DeptName unique(DeptName));
+
+Table created.
+
+SQL> alter table Employee add constraint fk_DNo foreign key (DNo) references Department1(DeptNo);
+
+Table altered.
+
+SQL> insert into Department1 values(2, 'CSE', 'SYNDICATE');
+
+1 row created.
+
+SQL> insert into Department1 values(5, 'ICT', 'AIRPORT');
+
+1 row created.
+
+SQL> insert into Department1 values(8, 'DSE', 'STREET');
+
+1 row created.
+
+SQL> insert into Department1 values(1, 'ECE', 'CHURCH');
+
+1 row created.
+
+SQL> insert into Employee values(12, 'ABC', 'M', 2145, 'MANIPAL', 2);
+
+1 row created.
+
+SQL> insert into Employee values(34, 'DEF', 'F', 3515, 'MANGALORE', 5);
+
+1 row created.
+
+SQL> insert into Employee values(56, 'GHI', 'M', 2467, 'UDUPI', 8);
+
+1 row created.
+
+SQL> insert into Employee values(78, 'JKL', 'F', 8346, 'BANGLALORE', 1);
+
+1 row created.
+
+SQL> insert into Employee values(90, 'MNO', 'F', 8346, 'BANGLALORE', 9);
+insert into Employee values(90, 'MNO', 'F', 8346, 'BANGLALORE', 9)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (A83.FK_DNO) violated - parent key not found
+
+
+SQL> insert into Department1 values(2, 'AI', 'HOME');
+insert into Department1 values(2, 'AI', 'HOME')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (A83.SYS_C00145922) violated
+
+
+SQL> delete from Department1 where DNo=8;
+delete from Department1 where DNo=8
+                              *
+ERROR at line 1:
+ORA-00904: "DNO": invalid identifier
+
+
+SQL> delete from Department1 where DeptNo=8;
+delete from Department1 where DeptNo=8
+*
+ERROR at line 1:
+ORA-02292: integrity constraint (A83.FK_DNO) violated - child record found
+
+
+SQL> alter table Employee drop constraint fk_DNo;
+
+Table altered.
+
+SQL> alter table Employee add constraint fk_DNo foreign key (DNo) references Department1(DeptNo) on delete cascade;
+
+Table altered.
+
+SQL> alter table Employee modify Salary default 10000;
+
+Table altered.
+
+@'C:\Users\ugcse.PG-CP.000\Documents\Shashank_220962346\Lab 02\University.sql'
+@'C:\Users\ugcse.PG-CP.000\Documents\Shashank_220962346\Lab 02\smallRelations.sql'
+
+SQL> select name, dept_name from Student;
+
+NAME                 DEPT_NAME
+-------------------- --------------------
+Zhang                Comp. Sci.
+Shankar              Comp. Sci.
+Brandt               History
+Chavez               Finance
+Peltier              Physics
+Levy                 Physics
+Williams             Comp. Sci.
+Sanchez              Music
+Snow                 Physics
+Brown                Comp. Sci.
+Aoi                  Elec. Eng.
+
+NAME                 DEPT_NAME
+-------------------- --------------------
+Bourikas             Elec. Eng.
+Tanaka               Biology
+
+13 rows selected.
+
+SQL>
+SQL> select * from Instructor where dept_name='Comp. Sci.';
+
+ID    NAME                 DEPT_NAME                SALARY
+----- -------------------- -------------------- ----------
+10101 Srinivasan           Comp. Sci.                65000
+45565 Katz                 Comp. Sci.                75000
+83821 Brandt               Comp. Sci.                92000
+
+SQL>
+SQL> select * from Course where credits=3;
+
+COURSE_I TITLE                                              DEPT_NAME
+-------- -------------------------------------------------- --------------------
+   CREDITS
+----------
+BIO-399  Computational Biology                              Biology
+         3
+
+CS-315   Robotics                                           Comp. Sci.
+         3
+
+CS-319   Image Processing                                   Comp. Sci.
+         3
+
+
+COURSE_I TITLE                                              DEPT_NAME
+-------- -------------------------------------------------- --------------------
+   CREDITS
+----------
+CS-347   Database System Concepts                           Comp. Sci.
+         3
+
+EE-181   Intro. to Digital Systems                          Elec. Eng.
+         3
+
+FIN-201  Investment Banking                                 Finance
+         3
+
+
+COURSE_I TITLE                                              DEPT_NAME
+-------- -------------------------------------------------- --------------------
+   CREDITS
+----------
+HIS-351  World History                                      History
+         3
+
+MU-199   Music Video Production                             Music
+         3
+
+
+8 rows selected.
+
+SQL>
+SQL> select course_id, title from Course where course_id in (select course_id from takes where id=12345);
+
+COURSE_I TITLE
+-------- --------------------------------------------------
+CS-101   Intro. to Computer Science
+CS-190   Game Design
+CS-315   Robotics
+CS-347   Database System Concepts
+
+SQL>
+SQL> select * from Instructor where salary>40000 and salary<90000;
+
+ID    NAME                 DEPT_NAME                SALARY
+----- -------------------- -------------------- ----------
+10101 Srinivasan           Comp. Sci.                65000
+32343 El Said              History                   60000
+33456 Gold                 Physics                   87000
+45565 Katz                 Comp. Sci.                75000
+58583 Califieri            History                   62000
+76543 Singh                Finance                   80000
+76766 Crick                Biology                   72000
+98345 Kim                  Elec. Eng.                80000
+
+8 rows selected.
+
+

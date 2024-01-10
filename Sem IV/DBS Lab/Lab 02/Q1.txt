@@ -1,0 +1,52 @@
+create table Employee (
+	EmpNo numeric(3), 
+	EmpName varchar(10) not null, 
+	Gender varchar(1) not null, 
+	Salary numeric(6) not null, 
+	Address varchar(10) not null, 
+	DNo numeric(3),  
+	primary key(EmpNo) , 
+	check (Gender in ('M', 'F')));
+
+create table Department(
+	DeptNo numeric(3), 
+	DeptName varchar(10), 
+	Location varchar(10), 
+	primary key(DeptNo), 
+	constraint CK_DeptName unique(DeptName));
+
+alter table Employee add constraint fk_DNo foreign key (DNo) references Department(DeptNo);
+
+insert into Department values(2, 'CSE', 'SYNDICATE');
+insert into Department values(5, 'ICT', 'AIRPORT');
+insert into Department values(8, 'DSE', 'STREET');
+insert into Department values(1, 'ECE', 'CHURCH');
+insert into Employee values(12, 'ABC', 'M', 2145, 'MANIPAL', 2);
+insert into Employee values(34, 'DEF', 'F', 3515, 'MANGALORE', 5);
+insert into Employee values(56, 'GHI', 'M', 2467, 'UDUPI', 8);
+insert into Employee values(78, 'JKL', 'F', 8346, 'BANGLALORE', 1);
+
+insert into Employee values(90, 'MNO', 'F', 8346, 'BANGLALORE', 9);
+insert into Department values(2, 'AI', 'HOME');
+
+delete from Department where DNo=8;
+
+alter table Employee drop constraint fk_DNo;
+alter table Employee add constraint fk_DNo foreign key (DNo) references Department(DeptNo) on delete cascade;
+
+alter table Employee add constraint df_salary default 10000 for Salary;
+
+rename Department to Department1;
+@'C:\Users\ugcse.PG-CP.000\Documents\Shashank_220962346\Lab 02\University.sql'
+@'C:\Users\ugcse.PG-CP.000\Documents\Shashank_220962346\Lab 02\smallRelations.sql'
+
+select name, dept_name from Student;
+
+select * from Instructor where dept_name='Comp. Sci.';
+
+select * from Course where credits=3;
+
+select course_id, title from Course where course_id in (select course_id from takes where id=12345);
+
+select * from Instructor where salary>40000 and salary<90000;
+
