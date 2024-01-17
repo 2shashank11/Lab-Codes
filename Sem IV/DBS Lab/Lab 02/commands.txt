@@ -201,4 +201,209 @@ ID    NAME                 DEPT_NAME                SALARY
 
 8 rows selected.
 
+SQL> select i.id from instructor i, teaches t where i.id=t.id;
+
+ID
+-----
+10101
+10101
+10101
+12121
+15151
+22222
+32343
+45565
+45565
+76766
+76766
+
+ID
+-----
+83821
+83821
+83821
+98345
+
+15 rows selected.
+
+
+SQL> select s.name, c.title, t.year from student s, section sec, course c, takes t where
+  2  (s.id=t.id) and
+  3  (t.sec_id=sec.sec_id) and
+  4  (t.course_id=c.course_id) and
+  5  (sec.course_id=c.course_id) and
+  6  (sec.room_number=100);
+
+NAME                 TITLE
+-------------------- --------------------------------------------------
+      YEAR
+----------
+Peltier              Physical Principles
+      2009
+
+Levy                 Image Processing
+      2010
+
+
+SQL> select s.name, t.course_id c_name from student s, takes t where s.id=t.id and t.year=2010;
+
+NAME                 C_NAME
+-------------------- --------
+Shankar              CS-315
+Brandt               HIS-351
+Chavez               FIN-201
+Levy                 CS-319
+Levy                 CS-101
+Sanchez              MU-199
+Brown                CS-319
+Bourikas             CS-315
+Tanaka               BIO-301
+
+9 rows selected.
+
+
+SQL> select i1.name, i1.salary inst_salary from instructor i1, instructor i2 where i1.salary>i2.salary and i2.dept_name='Comp. Sci.';
+
+NAME                 INST_SALARY
+-------------------- -----------
+Crick                      72000
+Katz                       75000
+Singh                      80000
+Kim                        80000
+Gold                       87000
+Wu                         90000
+Brandt                     92000
+Einstein                   95000
+Singh                      80000
+Kim                        80000
+Gold                       87000
+
+NAME                 INST_SALARY
+-------------------- -----------
+Wu                         90000
+Brandt                     92000
+Einstein                   95000
+Einstein                   95000
+
+15 rows selected.
+
+SQL> select i.name from instructor i where lower(i.dept_name) like '%ch%';
+
+no rows selected
+
+SQL> select s.name, length(s.name) length from student s;
+
+NAME                     LENGTH
+-------------------- ----------
+Zhang                         5
+Shankar                       7
+Brandt                        6
+Chavez                        6
+Peltier                       7
+Levy                          4
+Williams                      8
+Sanchez                       7
+Snow                          4
+Brown                         5
+Aoi                           3
+
+NAME                     LENGTH
+-------------------- ----------
+Bourikas                      8
+Tanaka                        6
+
+13 rows selected.
+
+
+SQL> select d.dept_name, substr(d.dept_name, 3, 3) as substring from department d;
+
+DEPT_NAME            SUB
+-------------------- ---
+Biology              olo
+Comp. Sci.           mp.
+Elec. Eng.           ec.
+Finance              nan
+History              sto
+Music                sic
+Physics              ysi
+
+7 rows selected.
+
+SQL> select upper(i.name) name from instructor i;
+
+NAME
+--------------------
+SRINIVASAN
+WU
+MOZART
+EINSTEIN
+EL SAID
+GOLD
+KATZ
+CALIFIERI
+SINGH
+CRICK
+BRANDT
+
+NAME
+--------------------
+KIM
+
+12 rows selected.
+
+SQL> select nvl(t.grade, 0) from takes t;
+
+NV
+--
+A
+A-
+C
+A
+A
+A
+B
+C+
+B-
+F
+B+
+
+NV
+--
+B
+A-
+B+
+A-
+A
+A
+C
+C-
+B
+A
+0
+
+22 rows selected.
+
+
+SQL> select i.salary, round(i.salary/3, -2) as rounded_salary from instructor i;
+
+    SALARY ROUNDED_SALARY
+---------- --------------
+     65000          21700
+     90000          30000
+     40000          13300
+     95000          31700
+     60000          20000
+     87000          29000
+     75000          25000
+     62000          20700
+     80000          26700
+     72000          24000
+     92000          30700
+
+    SALARY ROUNDED_SALARY
+---------- --------------
+     80000          26700
+
+12 rows selected.
+
 

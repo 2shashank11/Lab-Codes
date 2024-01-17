@@ -8,35 +8,35 @@ create table Employee (
 	primary key(EmpNo) , 
 	check (Gender in ('M', 'F')));
 
-create table Department(
+create table Department1(
 	DeptNo numeric(3), 
 	DeptName varchar(10), 
 	Location varchar(10), 
 	primary key(DeptNo), 
 	constraint CK_DeptName unique(DeptName));
 
-alter table Employee add constraint fk_DNo foreign key (DNo) references Department(DeptNo);
+alter table Employee add constraint fk_DNo foreign key (DNo) references Department1(DeptNo);
 
-insert into Department values(2, 'CSE', 'SYNDICATE');
-insert into Department values(5, 'ICT', 'AIRPORT');
-insert into Department values(8, 'DSE', 'STREET');
-insert into Department values(1, 'ECE', 'CHURCH');
+insert into Department1 values(2, 'CSE', 'SYNDICATE');
+insert into Department1 values(5, 'ICT', 'AIRPORT');
+insert into Department1 values(8, 'DSE', 'STREET');
+insert into Department1 values(1, 'ECE', 'CHURCH');
 insert into Employee values(12, 'ABC', 'M', 2145, 'MANIPAL', 2);
 insert into Employee values(34, 'DEF', 'F', 3515, 'MANGALORE', 5);
 insert into Employee values(56, 'GHI', 'M', 2467, 'UDUPI', 8);
 insert into Employee values(78, 'JKL', 'F', 8346, 'BANGLALORE', 1);
 
 insert into Employee values(90, 'MNO', 'F', 8346, 'BANGLALORE', 9);
-insert into Department values(2, 'AI', 'HOME');
+insert into Department1 values(2, 'AI', 'HOME');
 
-delete from Department where DNo=8;
+delete from Department1 where DeptNo=8;
 
 alter table Employee drop constraint fk_DNo;
-alter table Employee add constraint fk_DNo foreign key (DNo) references Department(DeptNo) on delete cascade;
+alter table Employee add constraint fk_DNo foreign key (DNo) references Department1(DeptNo) on delete cascade;
 
-alter table Employee add constraint df_salary default 10000 for Salary;
+alter table Employee modify Salary default 10000;
 
-rename Department to Department1;
+
 @'C:\Users\ugcse.PG-CP.000\Documents\Shashank_220962346\Lab 02\University.sql'
 @'C:\Users\ugcse.PG-CP.000\Documents\Shashank_220962346\Lab 02\smallRelations.sql'
 
@@ -50,3 +50,38 @@ select course_id, title from Course where course_id in (select course_id from ta
 
 select * from Instructor where salary>40000 and salary<90000;
 
+
+(teachers who have taught atleast one course)
+select i.id from instructor i, teaches t where i.id=t.id;
+
+select s.name, c.title, t.year from student s, section sec, course c, takes t where
+	(s.id=t.id) and 
+	(t.sec_id=sec.sec_id) and 
+	(t.course_id=c.course_id) and
+	(sec.course_id=c.course_id) and
+	(sec.room_number=100); 
+
+
+
+select s.name, t.course_id c_name from student s, takes t where s.id=t.id and t.year=2010;
+
+select i1.name, i1.salary inst_salary from instructor i1, instructor i2 where i1.salary>i2.salary and i2.dept_name='Comp. Sci.');
+
+select i.name from instructor i where lower(i.dept_name) like '%ch%';
+
+select s.name, length(s.name) length from student s;
+
+select d.dept_name, substr(d.dept_name, 3, 3) as substring from department d;
+
+select upper(i.name) name from instructor i;
+
+select nvl(t.grade, 1) from takes t;
+
+select i.salary, round(i.salary/3, -2) as rounded_salary from instructor i;
+
+alter table Employee add dob date;
+update Employee set dob=to_date('01012003', 'DD-MM-YYYY') where empno=12;
+update Employee set dob=to_date('02-Jan-2003', 'DD-MON-YYYY') where empno=34;
+update Employee set dob=to_date('03-Jan-03', 'DD-MON-YY') where empno=56;
+update Employee set dob=to_date('01012003', 'DD-MM-YYYY') where empno=78;
+select to_date(dob, 'DD-MON-YYYY') as dob from Employee;
