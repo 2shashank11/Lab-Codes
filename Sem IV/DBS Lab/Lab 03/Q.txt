@@ -1,0 +1,10 @@
+(select c.course_id from takes t where t.semester='Fall' and t.year=2009)
+	union(select c.course_id from takes t where t.semester='Spring' and t.year=2010);
+
+(select c.course_id from takes t where t.semester='Fall' and t.year=2009)
+	intersect(select c.course_id from takes t where t.semester='Spring' and t.year=2010);
+
+(select c.course_id from takes t where t.semester='Fall' and t.year=2009)
+	minus(select c.course_id from takes t where t.semester='Spring' and t.year=2010);
+
+select c.title from course c where c.course_id not in(select t.course_id from takes t);
