@@ -147,33 +147,110 @@ History                   61000
 6 rows selected.
 
 
-****Q10. Find the sections that had the maximum enrolment in Spring 2010
+Q10. Find the sections that had the maximum enrolment in Spring 2010
 
-with  maxenrol(course_id, sec_id, semester, year, val) as (select count(id) from takes  where semester = 'Spring' and year=2010) select course_id, sec_id, val from totenrol where val=select(max(val) from totenrol);
+SQL> WITH tot_enroll AS (
+  2          SELECT  sec_id, COUNT(id) AS val
+  3          FROM takes
+  4          WHERE semester = 'Spring' AND year = 2010
+  5          GROUP BY sec_id
+  6     )
+  7      SELECT sec_id, val
+  8      FROM tot_enroll
+  9      WHERE val = (SELECT MAX(val) FROM tot_enroll);
+
+SEC_ID          VAL
+-------- ----------
+1                 7
+
 
 Q11. Find the names of all instructors who teach all students that belong to ‘CSE’ 
 department.
+
+SQL> with cse_std as (
+  2     select s.id, s.name, t.course_id
+  3     from student s, takes t
+  4     where s.dept_name='Comp. Sci.' and s.id=t.id
+  5     )
+  6     select distinct(i.name)
+  7     from teaches t, instructor i, cse_std
+  8     where t.id=i.id and cse_std.course_id=t.course_id;
+
+NAME
+--------------------
+Srinivasan
+Katz
+Brandt
 
 
 Q12. Find the average salary of those department where the average salary is greater 
 than 50000 and total number of instructors in the department are more than 5.
 
+SQL> with avg_sal as (
+  2     select i.dept_name, avg(i.salary)
+  3     from instructor i
+  4     group by dept_name
+  5     having count(i.id)>2
+  6     )
+  7     select dept_name
+  8     from avg_sal;
 
+DEPT_NAME
+--------------------
+Comp. Sci.
+
+	
 
 Q13. Find all departments with the maximum budget.
+
+SQL> with dept_budget as(
+  2     select max(d.budget) as val
+  3     from department d
+  4     )
+  5     select d.dept_name, db.val
+  6     from dept_budget db, department d
+  7     where db.val=d.budget;
+
+DEPT_NAME                   VAL
+-------------------- ----------
+Finance                  120000
 
 
 
 Q14. Find all departments where the total salary is greater than the average of the total 
 salary at all departments.
 
+SQL> with dept_total (dept_name, val1) as(
+  2     select dept_name, sum(salary)
+  3     from instructor
+  4     group by dept_name
+  5     ),
+  6     dept_avg (val2) as (
+  7     select avg(val1)
+  8     from dept_total
+  9     )
+ 10     select *
+ 11     from dept_total d1, dept_avg d2
+ 12     where d1.val1>d2.val2;
+
+DEPT_NAME                  VAL1       VAL2
+-------------------- ---------- ----------
+Comp. Sci.               232000 128285.714
+Finance                  170000 128285.714
+Physics                  182000 128285.714
+
 
 
 Q15. Transfer all the students from CSE department to IT department.
 
+SQL> update student set dept_name='Finance' where dept_name='Comp. Sci.';
+
+4 rows updated.
 
 
 Q16. Increase salaries of instructors whose salary is over $100,000 by 3%, and all 
 others receive a 5% raise
 
+SQL> update instructor set salary = (case when salary>100000 then salary*1.03 else salary*1.05 end);
 
+12 rows updated.
