@@ -1,69 +1,91 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.ndimage import gaussian_filter
 
-def compute_dp(img, nsc, k=1.2):
-    py = [img]
-    sigma = 1.0  # Initial sigma
-    for _ in range(nsc - 1):
-        sigma *= k
-        img_blurred = cv2.GaussianBlur(img, (0, 0), sigma)
-        py.append(img_blurred)
+# Function to compute SIFT descriptors
+def compute_sift_descriptors(img, keypoints, size=16, bin_size=4, num_bins=8):
+    descriptors = []
+    for kp in keypoints:
+        x, y = int(kp.pt[0]), int(kp.pt[1])
+        size = int(kp.size)
 
-    dp = [py[i+1] - py[i] for i in range(len(py) - 1)]
-    return dp
-
-def detect_kp(dp, thrs=0.03):
-    kp = []
-    for i, dog in enumerate(dp):
-        mask = np.abs(dog) > thrs * np.max(np.abs(dog))
-        kp.extend([(i, x, y) for x, y in zip(*np.nonzero(mask))])
-    return kp
-
-def extract(img, kp, ps=16):
-    descs = []
-    half = ps // 2
-
-    for si, x, y in kp:
-        sc = 1.2 ** si
-        patch = img[max(0, int(x - half)):int(x + half),
-                      max(0, int(y - half)):int(y + half)]
-
-        if patch.shape[0] < ps or patch.shape[1] < ps:
+        # Extract a patch around the keypoint
+        patch = img[y-size:y+size, x-size:x+size]
+        if patch.shape[0] != patch.shape[1] or patch.shape[0] != 2*size:
             continue
 
-        patch = cv2.resize(patch, (ps, ps))
-        patch = patch.astype(np.float32)
-        desc = patch.flatten()
-        desc /= np.linalg.norm(desc)
-        descs.append(desc)
+        # Compute gradients in x and y directions
+        gx, gy = np.gradient(patch.astype(float))
+        magnitude = np.sqrt(gx**2 + gy**2)
+        orientation = np.arctan2(gy, gx) * 180 / np.pi
 
-    return np.array(descs)
+        # Divide patch into cells and compute histogram for each cell
+        descriptor = np.zeros((bin_size, bin_size, num_bins))
+        for i in range(bin_size):
+            for j in range(bin_size):
+                cell_mag = magnitude[i*size//bin_size:(i+1)*size//bin_size,
+                                     j*size//bin_size:(j+1)*size//bin_size]
+                cell_ori = orientation[i*size//bin_size:(i+1)*size//bin_size,
+                                       j*size//bin_size:(j+1)*size//bin_size]
+                hist, _ = np.histogram(cell_ori, bins=num_bins, range=(-180, 180), weights=cell_mag)
+                descriptor[i, j, :] = hist
 
-def draw_keypoints(img, kp):
-    img_kp = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
-    for si, x, y in kp:
-        cv2.circle(img_kp, (int(y), int(x)), 4, (0, 255, 0), -1)
-        cv2.putText(img_kp, f'{si}', (int(y), int(x) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 255, 0), 1)
-    return img_kp
+        # Flatten descriptor and normalize
+        descriptor = descriptor.flatten()
+        norm = np.linalg.norm(descriptor)
+        if norm > 0:
+            descriptor /= norm
 
-def main():
-    img_path = 'human.jpeg'
+        descriptors.append(descriptor)
+
+    return np.array(descriptors)
+
+# Function to draw keypoints on the image
+def draw_keypoints(img, keypoints, color=(255, 0, 0)):
+    img_with_keypoints = cv2.drawKeypoints(img, keypoints, None, color=color, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    return img_with_keypoints
+
+# Function to compare and display SIFT descriptors
+def compare_sift_descriptors(img_path):
     img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+    img_rgb = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
 
-    dp = compute_dp(img, nsc=3)
-    kp = detect_kp(dp)
+    # Initialize OpenCV SIFT
+    sift = cv2.SIFT_create()
+    keypoints, opencv_descriptors = sift.detectAndCompute(img, None)
 
-    dc = extract(img, kp)
+    # Compute custom SIFT descriptors
+    custom_descriptors = compute_sift_descriptors(img, keypoints)
 
-    img_kp = draw_keypoints(img, kp)
+    # Draw keypoints on images
+    img_with_opencv_keypoints = draw_keypoints(img_rgb, keypoints, color=(255, 0, 0))
+    img_with_custom_keypoints = draw_keypoints(img_rgb, keypoints, color=(0, 255, 0))
 
-    plt.imshow(cv2.cvtColor(img_kp, cv2.COLOR_BGR2RGB))
-    plt.title('Keypoints detected manually')
+    # Display images with keypoints
+    plt.figure(figsize=(12, 6))
+    plt.subplot(1, 2, 1)
+    plt.title("OpenCV Keypoints")
+    plt.imshow(cv2.cvtColor(img_with_opencv_keypoints, cv2.COLOR_BGR2RGB))
     plt.axis('off')
+
+    plt.subplot(1, 2, 2)
+    plt.title("Custom Keypoints")
+    plt.imshow(cv2.cvtColor(img_with_custom_keypoints, cv2.COLOR_BGR2RGB))
+    plt.axis('off')
+
     plt.show()
 
-    print(f"Custom Descriptors: {dc.shape}")
+    # Compare descriptors
+    if opencv_descriptors is not None and custom_descriptors.size > 0:
+        # Compute Euclidean distances between descriptors
+        distances = np.linalg.norm(opencv_descriptors[:, None] - custom_descriptors, axis=2)
+        min_distances = np.min(distances, axis=1)
+        avg_distance = np.mean(min_distances)
+        print(f"Average Euclidean Distance between descriptors: {avg_distance:.2f}")
+    else:
+        print("Descriptors not computed correctly")
 
-if __name__ == "__main__":
-    main()
+# Test the comparison
+img_path = 'img_1.png'
+compare_sift_descriptors(img_path)
