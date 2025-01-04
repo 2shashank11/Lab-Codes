@@ -1,6 +1,5 @@
 #include "mpi.h"
 #include<stdio.h>
-#include<math.h>
 
 int main(int argc, char* argv[]){
 	int rank, size;
@@ -8,8 +7,7 @@ int main(int argc, char* argv[]){
 	MPI_Init(&argc, &argv);
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
-	int a = 5;
-	printf("Integer: %d Rank: %d :: Power: %d", a, rank, pow(a, rank));
+	printf("My rank is %d and size is %d\n", rank, size);
 	MPI_Finalize();
 	return 0;
 }
