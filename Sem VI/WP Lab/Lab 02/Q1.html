@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bio Data</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f4f7;
+            color: #333;
+        }
+        .main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f8ff;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 0.8rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+        }
+        h2 {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .item {
+            margin-bottom: 1.2rem;
+        }
+        .input, .text, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 0.3rem;
+        }
+        .text, textarea {
+            height: 30px;
+        }
+        label {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+        .radio-group, .checkbox-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .radio-group input, .checkbox-group input {
+            margin-right: 0.5rem;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 0.8rem;
+            text-align: left;
+        }
+        th {
+            background-color: #f5f5f5;
+        }
+        .submit {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1.2rem;
+            border-radius: 0.3rem;
+            transition: background-color 0.3s ease;
+        }
+        .submit:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="container">
+            <form>
+                <div class="item">
+                    <h2>Student Bio-Data Form</h2>
+                </div>
+                <div class="item">
+                    <label for="name">Name</label><br>
+                    <input class="text" type="text" name="name" id="name">
+                </div>
+                <div class="item">
+                    <label for="email">Email</label><br>
+                    <input class="text" type="email" name="email" id="email">
+                </div>
+                <div class="item">
+                    <label for="phone">Phone</label><br>
+                    <input class="text" type="number" name="phone" id="phone">
+                </div>
+                <div class="item">
+                    <label for="college">College</label><br>
+                    <input class="text" type="text" name="college" id="college">
+                </div>
+                <div class="item">
+                    <label>Gender</label><br>
+                    <div class="radio-group">
+                        <input type="radio" name="gender" id="gender1" value="male"> Male
+                        <input type="radio" name="gender" id="gender2" value="female"> Female
+                        <input type="radio" name="gender" id="gender3" value="others"> Others
+                    </div>
+                </div>
+                <div class="item">
+                    <label>Skills</label><br>
+                    <div class="checkbox-group">
+                        <input type="checkbox" name="skills" id="skills1"> Web Development
+                        <input type="checkbox" name="skills" id="skills2"> Machine Learning
+                        <input type="checkbox" name="skills" id="skills3"> Data Analysis
+                    </div>
+                </div>
+                <div class="item">
+                    <label for="bio">Bio</label><br>
+                    <textarea class="text" name="bio" id="bio"></textarea>
+                </div>
+
+                <div class="item">
+                    <label for="subjects">Subjects</label><br>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Subject Name</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="text" name="subject1" class="input" placeholder="Enter subject"></td>
+                                <td><input type="number" name="score1" class="input" placeholder="Enter score"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" name="subject2" class="input" placeholder="Enter subject"></td>
+                                <td><input type="number" name="score2" class="input" placeholder="Enter score"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" name="subject3" class="input" placeholder="Enter subject"></td>
+                                <td><input type="number" name="score3" class="input" placeholder="Enter score"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="item">
+                    <input class="submit" id="submit" type="submit" value="Submit">
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

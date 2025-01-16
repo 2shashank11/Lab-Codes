@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Timetable</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 3rem;
+        }
+
+        .carousel-inner {
+            max-height: 400px;
+        }
+
+        table {
+            margin-top: 1.5rem;
+            width: 100%;
+        }
+
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .carousel-item img {
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+        }
+
+        .table-header {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .carousel-caption {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+        }
+
+        .carousel-control-prev-icon, .carousel-control-next-icon {
+            filter: invert(1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="timetableCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="carousel-caption">
+                        <h3>Monday</h3>
+                    </div>
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-header">
+                            <tr>
+                                <th>Time</th>
+                                <th>Subject</th>
+                                <th>Instructor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>8:00 AM - 9:00 AM</td>
+                                <td>Math 101</td>
+                                <td>Dr. Smith</td>
+                            </tr>
+                            <tr>
+                                <td>9:15 AM - 10:15 AM</td>
+                                <td>Physics 102</td>
+                                <td>Prof. Johnson</td>
+                            </tr>
+                            <tr>
+                                <td>10:30 AM - 11:30 AM</td>
+                                <td>Chemistry 103</td>
+                                <td>Dr. Lee</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="carousel-item">
+                    <div class="carousel-caption">
+                        <h3>Tuesday</h3>
+                    </div>
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-header">
+                            <tr>
+                                <th>Time</th>
+                                <th>Subject</th>
+                                <th>Instructor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>8:00 AM - 9:00 AM</td>
+                                <td>English Literature</td>
+                                <td>Ms. Davis</td>
+                            </tr>
+                            <tr>
+                                <td>9:15 AM - 10:15 AM</td>
+                                <td>History 201</td>
+                                <td>Dr. Brown</td>
+                            </tr>
+                            <tr>
+                                <td>10:30 AM - 11:30 AM</td>
+                                <td>Biology 104</td>
+                                <td>Prof. Green</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="carousel-item">
+                    <div class="carousel-caption">
+                        <h3>Wednesday</h3>
+                    </div>
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-header">
+                            <tr>
+                                <th>Time</th>
+                                <th>Subject</th>
+                                <th>Instructor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>8:00 AM - 9:00 AM</td>
+                                <td>Computer Science</td>
+                                <td>Dr. Wilson</td>
+                            </tr>
+                            <tr>
+                                <td>9:15 AM - 10:15 AM</td>
+                                <td>Mathematics</td>
+                                <td>Prof. Harris</td>
+                            </tr>
+                            <tr>
+                                <td>10:30 AM - 11:30 AM</td>
+                                <td>Art 105</td>
+                                <td>Ms. Clark</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="carousel-item">
+                    <div class="carousel-caption">
+                        <h3>Thursday</h3>
+                    </div>
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-header">
+                            <tr>
+                                <th>Time</th>
+                                <th>Subject</th>
+                                <th>Instructor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>8:00 AM - 9:00 AM</td>
+                                <td>Psychology</td>
+                                <td>Dr. Adams</td>
+                            </tr>
+                            <tr>
+                                <td>9:15 AM - 10:15 AM</td>
+                                <td>Sociology</td>
+                                <td>Prof. Taylor</td>
+                            </tr>
+                            <tr>
+                                <td>10:30 AM - 11:30 AM</td>
+                                <td>Physics 102</td>
+                                <td>Prof. Johnson</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="carousel-item">
+                    <div class="carousel-caption">
+                        <h3>Friday</h3>
+                    </div>
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-header">
+                            <tr>
+                                <th>Time</th>
+                                <th>Subject</th>
+                                <th>Instructor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>8:00 AM - 9:00 AM</td>
+                                <td>Philosophy 101</td>
+                                <td>Dr. Robinson</td>
+                            </tr>
+                            <tr>
+                                <td>9:15 AM - 10:15 AM</td>
+                                <td>Geography</td>
+                                <td>Prof. King</td>
+                            </tr>
+                            <tr>
+                                <td>10:30 AM - 11:30 AM</td>
+                                <td>Literature</td>
+                                <td>Ms. Edwards</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#timetableCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#timetableCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
