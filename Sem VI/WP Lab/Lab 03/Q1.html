@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+        }
+        .container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+        }
+        .item{
+            border: 2px solid #4CAF50;
+            border-radius: 1rem;
+            padding: 2rem;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        .item h2 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: #333;
+        }
+        label {
+            font-size: 1.1rem;
+            color: #333;
+            display: block;
+            margin-bottom: 15px;
+        }
+        input[type="radio"] {
+            margin: 10px;
+            transform: scale(1.2);
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            font-size: 1.2rem;
+            margin-top: 20px;
+            color: #555;
+        }
+        .score {
+            font-size: 1.3rem;
+            margin-top: 30px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="item">
+            <h2>Country Quiz</h2>
+            <form onsubmit="handleSubmit(event)">
+                <label>Which is the biggest country?</label><br>
+                <input type="radio" name="q1" class="q1" value="india"> India <br>
+                <input type="radio" name="q1" class="q1" value="china"> China <br>
+                <input type="radio" name="q1" class="q1" value="russia"> Russia <br>
+                <input type="radio" name="q1" class="q1" value="australia"> Australia <br>
+
+                <label>Which country has the most population?</label><br>
+                <input type="radio" name="q2" class="q2" value="india"> India <br>
+                <input type="radio" name="q2" class="q2" value="china"> China <br>
+                <input type="radio" name="q2" class="q2" value="usa"> USA <br>
+                <input type="radio" name="q2" class="q2" value="brazil"> Brazil <br>
+
+                <label>Which country is known as the Land of the Rising Sun?</label><br>
+                <input type="radio" name="q3" class="q3" value="india"> India <br>
+                <input type="radio" name="q3" class="q3" value="china"> China <br>
+                <input type="radio" name="q3" class="q3" value="japan"> Japan <br>
+                <input type="radio" name="q3" class="q3" value="thailand"> Thailand <br>
+
+                <button type="submit">Submit</button>
+            </form>
+            <div id="result" class="result"></div>
+            <div id="score" class="score"></div>
+        </div>
+    </div>
+
+    <script>
+        const radioButtons1 = document.getElementsByClassName('q1');
+        const radioButtons2 = document.getElementsByClassName('q2');
+        const radioButtons3 = document.getElementsByClassName('q3');
+        let selectedAnswers = {
+            q1: null,
+            q2: null,
+            q3: null
+        };
+
+        // Listen for changes in each question's radio buttons
+        for (let i = 0; i < radioButtons1.length; i++) {
+            radioButtons1[i].addEventListener('change', function(event) {
+                selectedAnswers.q1 = event.target.value;
+            });
+        }
+        for (let i = 0; i < radioButtons2.length; i++) {
+            radioButtons2[i].addEventListener('change', function(event) {
+                selectedAnswers.q2 = event.target.value;
+            });
+        }
+        for (let i = 0; i < radioButtons3.length; i++) {
+            radioButtons3[i].addEventListener('change', function(event) {
+                selectedAnswers.q3 = event.target.value;
+            });
+        }
+
+        // Correct answers for each question
+        const correctAnswers = {
+            q1: 'russia',
+            q2: 'china',
+            q3: 'japan'
+        };
+
+        function handleSubmit(e) {
+            e.preventDefault();
+
+            let score = 0;
+            for (let question in selectedAnswers) {
+                if (selectedAnswers[question] === correctAnswers[question]) {
+                    score++;
+                }
+            }
+
+            const resultElement = document.getElementById('result');
+            const scoreElement = document.getElementById('score');
+            
+            if (score === 3) {
+                resultElement.innerHTML = '<span style="color: green;">Correct! You got all questions right!</span>';
+            } else {
+                resultElement.innerHTML = `<span style="color: red;">You got ${score} out of 3 questions right!</span>`;
+            }
+
+            scoreElement.innerHTML = `Your Score: ${score}/3`;
+        }
+    </script>
+</body>
+</html>

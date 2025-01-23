@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clock with Greetings</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .clock {
+            font-size: 3em;
+            font-weight: bold;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .greeting {
+            font-size: 2em;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        .time-message {
+            font-size: 1.5em;
+            color: #777;
+        }
+
+        .time-message span {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="clock" id="clock"></div>
+        <div class="greeting" id="greeting"></div>
+    </div>
+
+    <script>
+        function displayTime() {
+            const date = new Date();
+            let hour = date.getHours();
+            let minute = date.getMinutes();
+            let second = date.getSeconds();
+
+            minute = minute < 10 ? '0' + minute : minute;
+            second = second < 10 ? '0' + second : second;
+
+            const timeString = `${hour}:${minute}:${second}`;
+            document.getElementById('clock').textContent = timeString;
+
+            let greetingMessage = '';
+            if (hour < 12) {
+                greetingMessage = 'Good Morning!';
+            } else if (hour < 17) {
+                greetingMessage = 'Good Afternoon!';
+            } else {
+                greetingMessage = 'Good Evening!';
+            }
+
+            document.getElementById('greeting').textContent = greetingMessage;
+
+            const timeMessage = `It's currently ${hour} : ${minute} : ${second}`;
+            document.getElementById('timeMessage').textContent = timeMessage;
+        }
+
+        setInterval(displayTime, 1000);
+
+        displayTime();
+    </script>
+
+</body>
+</html>
