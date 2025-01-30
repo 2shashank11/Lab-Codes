@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link href="./style.css" rel="stylesheet" type="text/css">
+    <style>
+        body {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: larger;
+        }
+
+        .main-container {
+            display: flex;
+            height: 90vh;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: auto;
+            display: flex;
+            gap: 15px;
+            flex-direction: column;
+        }
+
+        .header {
+            width: auto;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .title {
+            display: flex;
+            align-items: end;
+        }
+
+        .theme {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .theme-toggler {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 1px;
+            padding: 5px;
+            border-radius: 50px;
+        }
+
+        .theme-number {
+            display: flex;
+            justify-content: space-around;
+            gap: 3px;
+            padding: 2px;
+        }
+
+        .theme-label-1,
+        .theme-label-2,
+        .theme-label-3 {
+            text-align: center;
+            width: 20px;
+            height: 20px;
+        }
+
+        .theme1,
+        .theme2,
+        .theme3 {
+            width: 20px;
+            height: 15px;
+            border-radius: 30px;
+            ;
+        }
+
+        .theme1:hover,
+        .theme2:hover,
+        .theme3:hover {
+            background-color: rgba(255, 255, 255, 0.221);
+        }
+
+        .screen {
+            width: auto;
+            height: 5rem;
+            border-radius: 0.5rem;
+            border: none;
+            text-align: right;
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            padding: 0.5rem;
+            font-size: 2.5rem;
+            overflow-x: auto;
+        }
+
+        .numpad {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            flex-direction: column;
+            gap: 15px;
+            border-radius: 5px;
+        }
+
+        .numpad-number {
+            display: grid;
+            justify-self: center;
+            align-self: center;
+            width: 100%;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 0.9rem;
+            text-align: center;
+        }
+
+        .number,
+        .delete,
+        .operator {
+            width: 5rem;
+            height: 2.5rem;
+            font-size: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+        }
+
+        .numpad-operate {
+            font-size: 1.5rem;
+            display: grid;
+            width: 100%;
+            column-gap: 0.9rem;
+            grid-template-columns: 1fr 1fr;
+            text-align: center;
+        }
+
+        .operate {
+            width: 95%;
+            height: 2.5rem;
+            display: grid;
+            justify-self: center;
+            align-items: center;
+            border-radius: 5px;
+        }
+
+        .btn:hover,
+        .operate:hover,
+        .delete:hover {
+            scale: 0.96;
+            transition-duration: 200ms;
+            cursor: context-menu;
+        }
+
+
+        .theme1-active {
+            background-color: hsl(6, 63%, 50%);
+        }
+
+        .body-theme1 {
+            background-color: hsl(222, 26%, 31%);
+            color: hsl(0, 0%, 100%);
+        }
+
+        .theme-toggler-theme1,
+        .numpad-theme1 {
+            background-color: hsl(223, 31%, 20%);
+        }
+
+        .screen-theme1 {
+            background-color: hsl(224, 36%, 15%);
+        }
+
+        .number-theme1,
+        .operator-theme1 {
+            background-color: hsl(30, 25%, 89%);
+            box-shadow: 0px 3px hsl(224, 28%, 35%);
+            color: hsl(221, 14%, 31%);
+        }
+
+        .operate-theme1 {
+            background-color: hsl(30, 25%, 89%);
+            box-shadow: 0px 3px hsl(224, 28%, 35%);
+        }
+
+        .reset-theme1,
+        .delete-theme1 {
+            background-color: hsl(225, 21%, 49%);
+            color: hsl(0, 0%, 100%);
+        }
+
+        .equal-theme1 {
+            background-color: hsl(6, 63%, 50%);
+            box-shadow: 0px 4px hsl(6, 70%, 34%);
+        }
+
+        .number-theme1:hover,
+        .operator-theme1:hover {
+            background-color: hsl(38, 41%, 83%);
+        }
+
+        .reset-theme1:hover,
+        .delete-theme1:hover {
+            background-color: hsl(223, 79%, 71%);
+        }
+
+        .equal-theme1:hover {
+            background-color: hsl(6, 76%, 69%);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="container">
+            <div class="header">
+                <div class="title">calc</div>
+            </div>
+            <div class="screen" id="expression"></div>
+            <div class="numpad">
+                <div class="numpad-number">
+                    <div class="btn number" id="7">7</div>
+                    <div class="btn number" id="8">8</div>
+                    <div class="btn number" id="9">9</div>
+                    <div class="delete" id="delete">DEL</div>
+                    <div class="btn number" id="4">4</div>
+                    <div class="btn number" id="5">5</div>
+                    <div class="btn number" id="6">6</div>
+                    <div class="btn operator" id="plus">+</div>
+                    <div class="btn number" id="1">1</div>
+                    <div class="btn number" id="2">2</div>
+                    <div class="btn number" id="3">3</div>
+                    <div class="btn operator" id="minus">-</div>
+                    <div class="btn number" id="point">.</div>
+                    <div class="btn number" id="0">0</div>
+                    <div class="btn operator" id="divide">/</div>
+                    <div class="btn operator" id="multiply">*</div>
+                </div>
+                <div class="numpad-operate">
+                    <div class="operate reset" id="reset">RESET</div>
+                    <div class="operate equal" id="equal">=</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+
+        $("body").addClass("body-theme1");
+        $(".theme-toggler").addClass("theme-toggler-theme1");
+        $(".screen").addClass("screen-theme1");
+        $(".numpad").addClass("numpad-theme1");
+        $(".number").addClass("number-theme1");
+        $(".operator").addClass("operator-theme1");
+        $(".operate").addClass("operate-theme1");
+        $(".reset").addClass("reset-theme1");
+        $(".delete").addClass("delete-theme1");
+        $(".equal").addClass("equal-theme1");
+
+        var expression = "";
+        var result;
+
+        function displayOnScreen(exp) {
+            document.querySelector(".screen").innerHTML = exp;
+        }
+
+        document.querySelector(".reset").addEventListener("click", function () {
+            expression = "";
+            displayOnScreen(expression);
+        });
+
+        $(".delete").on("click", function () {
+            expression = expression.slice(0, expression.length - 1);
+            displayOnScreen(expression);
+
+        });
+
+        $(".btn").on("click", function () {
+            expression += this.innerHTML;
+            displayOnScreen(expression);
+        });
+
+
+        $(".equal").on("click", function () {
+            result = eval(expression);
+            displayOnScreen(result);
+            expression = result;
+            console.log(result);
+        });
+    </script>
+</body>
+
+</html>

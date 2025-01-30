@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>Birthday Card Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            height: 100vh;
+        }
+
+        .form-container {
+            width: 50%;
+            padding: 20px;
+            background-color: #f4f4f9;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            justify-content: flex-start;
+        }
+
+        .form-container h2 {
+            text-align: center;
+        }
+
+        label {
+            font-size: 1.1rem;
+        }
+
+        input[type="color"],
+        input[type="text"],
+        textarea {
+            padding: 8px;
+            margin-top: 5px;
+            font-size: 1rem;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        textarea {
+            resize: none;
+            height: 100px;
+        }
+
+        select, input[type="checkbox"] {
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .card-container {
+            width: 50%;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+
+        .card {
+            width: 300px;
+            height: 400px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .card img {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .card h1 {
+            margin-bottom: 15px;
+            font-family: 'Arial', sans-serif;
+            font-size: 2rem;
+        }
+
+        .card p {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Customize Your Birthday Card</h2>
+        <label for="bgColor">Choose Background Color</label>
+        <input type="color" id="bgColor" name="bgColor" value="#f7a7a7">
+
+        <label for="fontFamily">Choose Font</label>
+        <select id="fontFamily">
+            <option value="Arial">Arial</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Courier New">Courier New</option>
+            <option value="Verdana">Verdana</option>
+        </select>
+
+        <label for="fontSize">Font Size</label>
+        <input type="number" id="fontSize" name="fontSize" value="20" min="10" max="40">
+
+        <label for="borderStyle">Border Style</label>
+        <select id="borderStyle">
+            <option value="solid">Solid</option>
+            <option value="dashed">Dashed</option>
+            <option value="dotted">Dotted</option>
+        </select>
+
+        <label for="addImage">Add Default Picture</label>
+        <input type="checkbox" id="addImage" name="addImage">
+
+        <label for="messageText">Add Message</label>
+        <textarea id="messageText" placeholder="Enter your birthday message here"></textarea>
+
+        <button id="generateCard">Generate Card</button>
+    </div>
+
+    <div class="card-container">
+        <div id="card" class="card">
+            <img id="cardImage" src="image.jpg" alt="Birthday Image">
+            <h1 id="cardTitle">Happy Birthday!</h1>
+            <p id="cardMessage">Wishing you a day filled with love, laughter, and joy!</p>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#generateCard').click(function() {
+                const bgColor = $('#bgColor').val();
+                const fontFamily = $('#fontFamily').val();
+                const fontSize = $('#fontSize').val();
+                const borderStyle = $('#borderStyle').val();
+                const addImage = $('#addImage').prop('checked');
+                const messageText = $('#messageText').val();
+
+                $('#card').css('background-color', bgColor);
+                $('#card').css('border', `5px ${borderStyle} #ccc`);
+                $('#card').css('font-family', fontFamily);
+                $('#card').css('font-size', fontSize + 'px');
+                
+                if (messageText.trim() === "") {
+                    $('#cardMessage').text('Wishing you a day filled with love, laughter, and joy!');
+                } else {
+                    $('#cardMessage').text(messageText);
+                }
+
+                if (addImage) {
+                    $('#cardImage').show();
+                } else {
+                    $('#cardImage').hide();
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
